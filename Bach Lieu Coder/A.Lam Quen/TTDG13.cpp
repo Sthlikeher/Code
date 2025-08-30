@@ -17,10 +17,11 @@
 using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
-const ll maxN = 500005, lim = 1e6 + 5, bits = 30, inf = 1 << bits, MOD = 998244353;
+typedef int_fast64_t fint;
+const ll maxN = 500005, lim = 1e6 + 5, bits = 30, inf = 1 << bits, MOD = 998244353; 
 Piu {
     fl;
-    ll n;
-    cin >> n;
-    cout << pow(n, 2);
+    fint n, m;
+    cin >> n >> m;
+    cout << max(n, m);
 }

@@ -20,7 +20,7 @@ typedef unsigned long long ull;
 const ll maxN = 500005, lim = 1e6 + 5, bits = 30, inf = 1 << bits, MOD = 998244353;
 Piu {
     fl;
-    ll n;
-    cin >> n;
-    cout << pow(n, 2);
+    ll a, b, c;
+    cin >> a >> b >> c;
+    cout << a*(b+c) + b*(a+c);
 }
