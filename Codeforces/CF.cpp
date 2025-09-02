@@ -18,42 +18,20 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 typedef int_fast64_t fint;
-const ll maxN = 500005, lim = 1e6 + 5, bits = 30, inf = 1 << bits, MOD = 998244353;
-ll n;
-pll a[maxN];
-vl v;
-ll fenw[maxN];
-void upd(int i, ll val) {
-    while (i <= sz(v)) {
-        fenw[i] = max(fenw[i], val);
-        i += i & -i;
-    }
-}
-ll get(int i) {
-    ll res = 0;
-    while (i > 0) {
-        res = max(res, fenw[i]);
-        i -= i & -i;
-    }
-    return res;
+const ll maxN = 200005, lim = 1e6 + 5, bits = 30, inf = 1 << bits, mod = 998244353;
+bool f(ll x, ll y) {
+    ll mx = max(x, y), mn = min(x, y);
+    return mx <= 2 * (mn + 1);
 }
 Piu {
     fl;
-    cin >> n;
-    for (ll i = 0; i < n; i++) {
-        cin >> a[i].fi >> a[i].se;
-        v.pb(a[i].fi);
+    ll t;
+    cin >> t;
+    while (t--) {
+        ll a, b, c, d;
+        cin >> a >> b >> c >> d;
+        bool f1 = f(a, b);
+        bool f2 = f(c - a, d - b);
+        cout << (f1 && f2 ? "YES" : "NO") << '\n';
     }
-    sort(all(v));
-    v.erase(unique(all(v)), v.end());
-    ll ans = 0, m = sz(v);
-    for (ll i = 0; i < n; i++) {
-        ll x = a[i].fi, w = a[i].se;
-        ll pos = lower_bound(all(v), x) - v.begin() + 1;
-        ll best = get(pos - 1);
-        ll dp = best + w;
-        upd(pos, dp);
-        ans = max(ans, dp);
-    }
-    cout << ans;
-}  
+}
