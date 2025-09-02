@@ -19,41 +19,35 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef int_fast64_t fint;
 const ll maxN = 500005, lim = 1e6 + 5, bits = 30, inf = 1 << bits, MOD = 998244353;
-ll n;
-pll a[maxN];
-vl v;
-ll fenw[maxN];
-void upd(int i, ll val) {
-    while (i <= sz(v)) {
-        fenw[i] = max(fenw[i], val);
-        i += i & -i;
-    }
-}
-ll get(int i) {
-    ll res = 0;
-    while (i > 0) {
-        res = max(res, fenw[i]);
-        i -= i & -i;
-    }
-    return res;
-}
 Piu {
     fl;
+    ll n;
     cin >> n;
+    vl a(n), b(n);
+    for (ll i = 0; i < n; i++) cin >> a[i] >> b[i];
+    sort(all(a)), sort(all(b));
+    bool ua[1000], ub[1000];
+    memset(ua, false, sizeof(ua));
+    memset(ub, false, sizeof(ub));
+    ll w = 0, d = 0;
     for (ll i = 0; i < n; i++) {
-        cin >> a[i].fi >> a[i].se;
-        v.pb(a[i].fi);
+        ll bi = -1;
+        for (ll j = 0; j < n; j++) {
+            if (!ua[j] && a[j] < b[i]) {
+                if (bi == -1 || a[j] > a[bi]) bi = j; 
+            }
+        }
+        if (bi != -1) w++, ua[bi] = true, ub[i] = true;
     }
-    sort(all(v));
-    v.erase(unique(all(v)), v.end());
-    ll ans = 0, m = sz(v);
     for (ll i = 0; i < n; i++) {
-        ll x = a[i].fi, w = a[i].se;
-        ll pos = lower_bound(all(v), x) - v.begin() + 1;
-        ll best = get(pos - 1);
-        ll dp = best + w;
-        upd(pos, dp);
-        ans = max(ans, dp);
+        if (!ub[i]) {
+            for (ll j = 0; j < n; j++) {
+                if (!ua[j] && a[j] == b[i]) {
+                    d++, ua[j] = true, ub[i] = true;
+                    break;
+                }
+            }
+        }
     }
-    cout << ans;
-}  
+    cout << 2 * w + d;
+}
