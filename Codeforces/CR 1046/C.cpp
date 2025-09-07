@@ -17,6 +17,7 @@
 using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
+typedef int_fast64_t fint;
 const ll maxN = 200005, lim = 1e6 + 5, bits = 30, inf = 1 << bits, mod = 998244353;
 Piu {
     fl;
