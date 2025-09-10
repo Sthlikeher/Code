@@ -14,6 +14,20 @@
         "string": "cpp",
         "string_view": "cpp",
         "vector": "cpp",
-        "stacktrace": "cpp"
+        "stacktrace": "cpp",
+        "__bit_reference": "cpp",
+        "__hash_table": "cpp",
+        "__split_buffer": "cpp",
+        "__tree": "cpp",
+        "forward_list": "cpp",
+        "initializer_list": "cpp",
+        "regex": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "valarray": "cpp",
+        "format": "cpp",
+        "generator": "cpp",
+        "ranges": "cpp",
+        "text_encoding": "cpp"
     }
 }
