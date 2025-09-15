@@ -29,6 +29,7 @@
         "generator": "cpp",
         "ranges": "cpp",
         "text_encoding": "cpp",
-        "hsg8_13": "cpp"
+        "hsg8_13": "cpp",
+        "editor.fontfamily": "Fira Code"
     }
 }
