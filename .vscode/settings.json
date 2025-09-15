@@ -28,6 +28,7 @@
         "format": "cpp",
         "generator": "cpp",
         "ranges": "cpp",
-        "text_encoding": "cpp"
+        "text_encoding": "cpp",
+        "hsg8_13": "cpp"
     }
 }
