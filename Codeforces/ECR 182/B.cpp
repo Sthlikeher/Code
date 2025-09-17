@@ -14,25 +14,12 @@
 #define allr(x) (x).rbegin(), (x).rend()
 #define sz(x) ((int) x.size())
 #pragma GCC optimize ("Ofast","unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 typedef int_fast64_t fint;
 const ll maxN = 500005, lim = 1e6 + 5, bits = 30, inf = 1 << bits, MOD = 998244353, nmax = 1e7 + 5;
-fint cost(vl &a) {
-    fint n = sz(a), end = -1, mx = a[0];
-    for (fint i = 1; i < n; i++) {
-        if (a[i] < mx) end = i;
-        else mx = a[i];
-    }
-    if (end == -1) return 0;
-    fint s = -1, mn = a[n - 1];
-    for (fint i = n - 2; i >= 0; i--) {
-        if (a[i] > mn) s = i;
-        else mn = a[i];
-    }
-    return end - s + 1;
-}
 Piu {
     fl;
     fint t;
@@ -40,20 +27,23 @@ Piu {
     while (t--) {
         fint n;
         cin >> n;
-        vl p(n);
-        vector<bool> pre(n + 1, false);
-        for (fint i = 0; i < n; i++) {
-            cin >> p[i];
-            if (p[i] != 0) pre[p[i]] = true;
+        vector <fint> a(n);
+        for (fint &i : a) cin >> i;
+        vector <fint> not_ex;
+        {
+            vector <bool> f(n + 1, false);
+            for (fint i = 0; i < n; i++) f[a[i]] = true;
+            for (fint i = 1; i <= n; i++) if (!f[i]) not_ex.eb(i);
         }
-        vl miss;
-        for (fint i = 1; i <= n; i++) if (!pre[i]) miss.pb(i);
-        sort(allr(miss));
-        vl z;
-        for (fint i = 0; i < n; i++) if (p[i] == 0) z.pb(i);
-        sort(all(z));
-        vl a = p;
-        for (size_t i = 0; i < z.size(); i++) a[z[i]] = miss[i];
-        cout << cost(a) << '\n';
+        for (fint i = 0; i < n; i++) {
+            if (a[i] == 0) {
+                a[i] = not_ex.back();
+                not_ex.pop_back();
+            }
+        }
+        fint l = 0, r = n - 1;
+        while (l < n && a[l] == l + 1) l++;
+        while (r >= 0 && a[r] == r + 1) r--;
+        cout << max<fint>(0, r - l + 1) << '\n';
     }
 }

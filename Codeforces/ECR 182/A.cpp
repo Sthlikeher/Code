@@ -14,6 +14,7 @@
 #define allr(x) (x).rbegin(), (x).rend()
 #define sz(x) ((int) x.size())
 #pragma GCC optimize ("Ofast","unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
@@ -26,31 +27,22 @@ Piu {
     while (t--) {
         fint n;
         cin >> n;
-        vl a(n + 1);
-        for (fint i = 1; i <= n; i++) cin >> a[i], a[i] %= 3;
-        vl pre(n + 1, 0);
-        for (fint i = 1; i <= n; i++) pre[i] = (pre[i - 1] + a[i]) % 3;
-        if (pre[n] % 3 != 0) {
-            cout << "0 0\n";
-            continue;
-        }
-        bool ok = false;
-        for (fint l = 1; l <= n - 2 && !ok; l++) {
-            for (fint r = l + 1; r <= n - 1 && !ok; r++) {
-                fint s1 = pre[l];
-                fint s2 = (pre[r] - pre[l]) % 3;
-                if (s2 < 0) s2 += 3;
-                fint s3 = (pre[n] - pre[r]) % 3;
-                if (s3 < 0) s3 += 3;
-                bool equal = (s1 == s2 && s2 == s3);
-                bool dis = (s1 != s2 && s1 != s3 && s2 != s3);
-                if (equal || dis) {
-                    cout << l << ' ' << r << "\n";
-                    ok = true;
-                    break;
+        vl a(n + 1), cnt(n + 1);
+        for (fint i = 1; i <= n; i++) cin >> a[i];
+        for (fint i = 1; i <= n; i++) cnt[i] = cnt[i - 1] + a[i];
+        for (fint l = 1; l < n; l++) {
+            for (fint r = l + 1; r < n; r++) {
+                set <fint> st;
+                st.insert(cnt[l] % 3);
+                st.insert((cnt[r] - cnt[l]) % 3);
+                st.insert((cnt[n] - cnt[r]) % 3);
+                if (st.size() == 1 || st.size() == 3) {
+                    cout << l << " " << r << '\n';
+                    goto end;
                 }
             }
         }
-        if (!ok) cout << "0 0\n";
+        cout << "0 0\n";
+        end:;
     }
 }
