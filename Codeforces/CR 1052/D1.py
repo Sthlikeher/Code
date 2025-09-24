@@ -1,6 +1,6 @@
 import sys
 input = lambda: sys.stdin.readline().rstrip()
-# print = lambda x: sys.stdout.write(str(x) + '\n')
+#print = lambda x: sys.stdout.write(str(x) + '\n')
 def solve() :
     t = int(input())
     for _ in range(t) :
