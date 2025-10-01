@@ -24,5 +24,11 @@ Piu {
     fl;
     fint n;
     cin >> n;
-    cout << (n % 2 == 0 ? "chan" : "le");
+    fint res = 0;
+    for (fint i = 0; i < n; i++) {
+        fint x;
+        cin >> x;
+        res += x;
+    }
+    cout << res;
 }
