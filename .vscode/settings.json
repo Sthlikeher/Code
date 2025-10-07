@@ -30,6 +30,10 @@
         "ranges": "cpp",
         "text_encoding": "cpp",
         "hsg8_13": "cpp",
-        "compare": "cpp"
-    }
+        "compare": "cpp",
+        "chrono": "cpp",
+        "type_traits": "cpp",
+        "iosfwd": "cpp"
+    },
+    "python.REPL.enableREPLSmartSend": false
 }

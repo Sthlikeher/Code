@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 #define fl ios_base::sync_with_stdio(false),cin.tie(NULL),cout.tie(NULL)
-#define Piu signed main()
+#define piu signed main()
 #define fi first
 #define se second
 #define ld long double
-#define pii pair<int, int>
+#define pii pair<fint, fint>
 #define pll pair<long long, long long>
 #define vl vector<ll>
 #define vvl vector<vl>
@@ -19,16 +19,17 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 typedef int_fast64_t fint;
-const ll maxN = 500005, lim = 1e6 + 5, bits = 30, inf = 1 << bits, MOD = 998244353, nmax = 1e7 + 5;
-Piu {
+const ll maxN = 30, lim = 5e5 + 5, mod = 998244353;
+piu {
     fl;
     fint n;
     cin >> n;
-    fint res = 0;
-    for (fint i = 0; i < n; i++) {
-        fint x;
-        cin >> x;
-        res += x;
-    }
-    cout << res;
+    if (n >= 0) {
+        if (n >= 9) cout << "Xuat sac\n";
+        else if (n >= 8 && n < 9) cout << "Gioi\n";
+        else if (n >= 7 && n < 8) cout << "Kha\n";
+        else if (n >= 6 && n < 7) cout << "Trung Binh Kha\n";
+        else if (n >= 5 && n < 6) cout << "Trung Binh\n";
+        else cout << "Yeu\n";
+    } else cout << "Nhap diem khong hop le\n";
 }
