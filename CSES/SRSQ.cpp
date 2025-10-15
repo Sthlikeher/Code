@@ -19,20 +19,19 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 typedef int_fast64_t fint;
-const ll maxN = 30, lim = 5e5 + 5, mod = 1e9 + 7, N = 2e5 + 5;
-void HN(fint n, fint f, fint aux, fint to, vector <pll>& move) {
-    if (n == 0) return;
-    HN(n - 1, f, to, aux, move);
-    move.pb({f, to});
-    HN(n - 1, aux, f, to, move);
-}
+const ll maxN = 30, lim = 5e5 + 5, mod = 998244353;
 piu {
     fl;
-    fint n;
-    cin >> n;
-    vector <pll> move;
-    move.reserve((1 << n) - 1);
-    HN(n, 1, 2, 3, move);
-    cout << ((1LL << n) - 1) << '\n';
-    for (auto [a, b] : move) cout << a << ' ' << b << '\n';
+    fint n, q;
+    cin >> n >> q;
+    vl a(n + 1), cnt(n + 1, 0);
+    for (fint i = 1; i <= n; i++) {
+        cin >> a[i];
+        cnt[i] = cnt[i - 1] + a[i];
+    }
+    while (q--) {
+        fint l, r;
+        cin >> l >> r;
+        cout << cnt[r] - cnt[l - 1] << '\n';
+    }
 }

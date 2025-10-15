@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.css": "tailwindcss",
         "ostream": "cpp",
         "cmath": "cpp",
         "istream": "cpp",
@@ -33,7 +34,12 @@
         "compare": "cpp",
         "chrono": "cpp",
         "type_traits": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "flat_map": "cpp",
+        "flat_set": "cpp",
+        "bitset": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     },
     "python.REPL.enableREPLSmartSend": false
 }
