@@ -1,31 +1,33 @@
-def tower_of_hanoi(n, source, auxiliary, destination, moves):
-    if n == 1:
-        moves.append((source, destination))
-        return
-    
-    # Move n-1 disks from source to auxiliary
-    tower_of_hanoi(n-1, source, destination, auxiliary, moves)
-    
-    # Move the largest disk from source to destination
-    moves.append((source, destination))
-    
-    # Move n-1 disks from auxiliary to destination
-    tower_of_hanoi(n-1, auxiliary, source, destination, moves)
-
+import sys
+input = lambda: sys.stdin.buffer.readline().rstrip()
+#print = lambda x: sys.stdout.write(str(x) + '\n')
+def sump(l, r) :
+    print(f"1 {l} {r}", flush=True)
+    return int(sys.stdin.readline().strip())
+def suma(l, r) :
+    print(f"2 {l} {r}", flush=True)
+    return int(sys.stdin.readline().strip())
+def solve(n : int):
+    tt = suma(1, n)
+    k = tt - n * (n + 1) // 2
+    l, h = 1, n
+    res = n
+    while l <= h:
+        mid = l + h >> 1
+        sp = sump(1, mid)
+        sa = suma(1, mid)
+        diff = sa - sp
+        if diff == k:
+            res = mid
+            h = mid - 1
+        else :
+            l = mid + 1
+    l = res - k + 1
+    print(f"! {l} {res}", flush=True)
 def main():
-    n = int(input().strip())
-    
-    # Calculate minimum number of moves: 2^n - 1
-    min_moves = (1 << n) - 1  # Same as 2^n - 1
-    
-    # Generate all moves
-    moves = []
-    tower_of_hanoi(n, 1, 2, 3, moves)
-    
-    # Output results
-    print(min_moves)
-    for a, b in moves:
-        print(f"{a} {b}")
-
+    t = int(input())
+    for _ in range(t) :
+        n = int(input())
+        solve(n)
 if __name__ == "__main__":
     main()
