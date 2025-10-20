@@ -22,32 +22,7 @@ typedef int_fast64_t fint;
 const ll maxN = 30, lim = 1e7 + 7, mod = 1e9 + 7, N = 2e5 + 5, base = 131;
 piu {
     fl;
-    fint m;
-    cin >> m;
-    if (m > 0 && m <= 12) {
-        switch (m) {
-        case 1:
-        case 2:
-        case 3:
-            cout << "Quy 1.";
-            break;
-        case 4:
-        case 5:
-        case 6:
-            cout << "Quy 2.";
-            break;
-        case 7:
-        case 8:
-        case 9:
-            cout << "Quy 3.";
-            break;
-        case 10:
-        case 11:
-        case 12:
-            cout << "Quy 4.";
-            break;
-        default:
-            break;
-        }
-    }
+    fint n;
+    cin >> n;
+    cout << n * (n + 1) / 2;
 }
