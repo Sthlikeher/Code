@@ -19,10 +19,15 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 typedef int_fast64_t fint;
-const ll maxN = 30, lim = 1e7 + 7, mod = 1e9 + 7, N = 2e5 + 5, base = 131;
+typedef  __uint128_t u128;
+const ll maxN = 30, lim = 60, mod = 1e9 + 7, N = 2e5 + 5, base = 131, inf = (1ULL << 62);
 piu {
     fl;
-    fint n;
-    cin >> n;
-    cout << n * (n + 1) / 2;
+    fint a, b;
+    cin >> a >> b;
+    fint res = 0;
+    for (fint i = a; i <= b; i++) {
+        if (i % 2 == 0) res += i;
+    }
+    cout << res;
 }

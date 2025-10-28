@@ -19,50 +19,92 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 typedef int_fast64_t fint;
-const ll maxN = 30, lim = 1e7 + 7, mod = 1e9 + 7, N = 2e5 + 5, base = 131;
-ll a[N], st[N << 1];
-void build(ll id, ll l, ll r) {
-    if (l == r) {
-        st[id] = a[l];
-        return;
+typedef  __uint128_t u128;
+const ll maxN = 30, lim = 1e7 + 7, mod = 1e9 + 7, N = 2e5 + 5, base = 131, inf = (1ULL << 62);
+static bool check(int d, vector <int> &a, int x, int k) {
+    if (d == 0) return true;
+    fint n = a.size();
+    vector <pii> it;
+    for (fint i = 0; i < n; i++) {
+        fint l = max(0 , a[i] - (d- 1));
+        fint r = max(x, a[i] + (d- 1));
+        it.pb({l, r});
     }
-    ll mid = l + r >> 1;
-    build(id * 2, l, mid); build(id * 2 + 1, mid + 1, r);
-    st[id] = min(st[id * 2 ], st[id * 2 + 1 ]);
-}
-void upd(ll id, ll l, ll r, ll pos, ll v) {
-    if (pos < l || pos > r) return;
-    if (l == r) {
-        st[id] = v;
-        return;
+    sort(all(it));
+    vector <pii> m;
+    fint curl = it[0].fi, curr = it[0].se;
+    for (fint i = 1; i < n; i++) {
+        if (it[i].fi <= curr + 1) curr = max(curr, it[i].se);
+        else {
+            m.pb({curl, curr});
+            curl = it[i].fi;
+            curr = it[i].se;
+        }
     }
-    ll mid = l + r >> 1;
-    upd(id * 2, l, mid, pos, v); upd(id * 2 + 1, mid + 1, r, pos, v);
-    st[id] = min(st[id * 2 ], st[id * 2 + 1 ]);
-}
-ll get(ll id, ll l, ll r, ll u, ll v) {
-    if (v < l || r < u) return INT_FAST64_MAX;
-    if (u <= l && r <= v) return st[id];
-    ll mid = l + r >> 1;
-    return min(get(id * 2, l, mid, u, v), get(id * 2 + 1, mid + 1, r, u, v));
+    m.pb({curl, curr});
+    ll f = 0;
+    for (auto &p : m) f += (p.se - p.fi + 1);
+    ll c = (x + 1) - f;
+    return x >= k;
 }
 piu {
     fl;
-    ll n, q;
-    cin >> n >> q;
-    for (ll i = 1;i <= n; i++) cin >> a[i];
-    memset(st, 0x3f, sizeof st); build(1, 1, n);
-    while(q--) {
-        ll t;
-        cin >> t;
-        if (t == 1) {
-            ll k, u;
-            cin >> k >> u;
-            upd(1, 1, n, k, u);
+    fint t;
+    cin >> t;
+    while(t--) {
+        int n, k, x;
+        cin >> n >> k >> x;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) {
+            cin >> a[i];
+        }
+        fint l = 0, h = x;
+        while (l <= h) {
+            fint mid = (l + h) >> 1;
+            if (check(mid, a, x, k)) l = mid + 1;
+            else h = mid - 1;
+        }
+        int dm = h;
+        if (dm == 0) {
+            for (fint i = 0; i < k; i++) cout << i << " ";
+            cout << '\n';
         } else {
-            ll l, r;
-            cin >> l >> r;
-            cout << get(1, 1, n, l, r) << '\n';
+            vector <pii> it;
+            for (int i = 0; i < n; i++) {
+                int l = max(0, a[i] - (dm - 1));
+                int r = max(x, a[i] + (dm - 1));
+                it.pb({l, r});
+            }
+            sort(all(it));
+            vector<pii> m;
+            fint curl = it[0].fi, curr = it[0].se;
+            for (fint i = 1; i < n; i++) {
+                if (it[i].fi <= curr + 1) curr = max(curr, it[i].se);
+                else {
+                        m.pb({curl, curr});
+                        curl = it[i].fi;
+                        curr = it[i].se;
+                }
+            }
+            m.pb({curl, curr});
+            vector <int> tele;
+            int ptr = 0;
+            for (auto &[l, r] : m) {
+                for (fint p = ptr; p < l; p++) {
+                    tele.pb(p);
+                    if (tele.size() == k) break;
+                }
+                if (tele.size() == k) break;
+                ptr = r + 1;
+            }
+            if (tele.size() < k) {
+                for (fint p = ptr; p <= x; p++) {
+                    tele.pb(p);
+                    if (tele.size() == k) break;
+                }
+            }
+            for (fint i = 0; i < k; i++) cout << tele[i] << " ";
+            cout << "\n";
         }
     }
 }

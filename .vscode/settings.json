@@ -39,7 +39,8 @@
         "flat_set": "cpp",
         "bitset": "cpp",
         "queue": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "random": "cpp"
     },
     "python.REPL.enableREPLSmartSend": false
 }
