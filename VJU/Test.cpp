@@ -21,13 +21,13 @@ typedef unsigned long long ull;
 typedef int_fast64_t fint;
 typedef  __uint128_t u128;
 const ll maxN = 30, lim = 60, mod = 1e9 + 7, N = 2e5 + 5, base = 131, inf = (1ULL << 62);
+ll sumev(ll n) {
+    ll k = n / 2;
+    return k * (k + 1);
+}
 piu {
     fl;
     fint a, b;
     cin >> a >> b;
-    fint res = 0;
-    for (fint i = a; i <= b; i++) {
-        if (i % 2 == 0) res += i;
-    }
-    cout << res;
+    cout << sumev(b) - sumev(a);
 }
