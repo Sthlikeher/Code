@@ -23,15 +23,14 @@ typedef  __uint128_t u128;
 const ll maxN = 30, lim = 1e7 + 7, mod = 1e9 + 7, N = 2e5 + 5, base = 131, inf = (1ULL << 62);
 piu {
     fl;
-    ll n;
-    cin >> n;
-    vl a(n);
-    ll res = 0;
-    for (auto &i : a) {
-        cin >> i;
-        if (i % 5 == 0) res += i;
+    int n; cin >> n;
+    int a[n];
+    int res = 0;
+    for (int i = 1; i <= n; i++) {
+        cin >> a[i];
+        if (a[i] % 5 == 0) res += a[i];
     }
-    for (auto i : a) cout << i << " ";
-    cout << '\n';
+    for (int i = 1; i <= n; i++) cout << a[i] << " ";
+    cout << "\n";
     cout << res;
 }
