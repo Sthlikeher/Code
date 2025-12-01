@@ -21,90 +21,100 @@ typedef unsigned long long ull;
 typedef int_fast64_t fint;
 typedef  __uint128_t u128;
 const ll maxN = 30, lim = 1e7 + 7, mod = 1e9 + 7, N = 2e5 + 5, base = 131, inf = (1ULL << 62);
-static bool check(int d, vector <int> &a, int x, int k) {
-    if (d == 0) return true;
-    fint n = a.size();
-    vector <pii> it;
-    for (fint i = 0; i < n; i++) {
-        fint l = max(0 , a[i] - (d- 1));
-        fint r = max(x, a[i] + (d- 1));
-        it.pb({l, r});
-    }
-    sort(all(it));
-    vector <pii> m;
-    fint curl = it[0].fi, curr = it[0].se;
-    for (fint i = 1; i < n; i++) {
-        if (it[i].fi <= curr + 1) curr = max(curr, it[i].se);
-        else {
-            m.pb({curl, curr});
-            curl = it[i].fi;
-            curr = it[i].se;
-        }
-    }
-    m.pb({curl, curr});
-    ll f = 0;
-    for (auto &p : m) f += (p.se - p.fi + 1);
-    ll c = (x + 1) - f;
-    return x >= k;
+struct op {
+    fint l, r;
+};
+bool palin(string s) {
+    fint n = sz(s);
+    for (fint i = 0; i < n / 2; i++) if (s[i] != s[n - 1 - i]) return false;
+    return true;
 }
 piu {
     fl;
     fint t;
     cin >> t;
-    while(t--) {
-        int n, k, x;
-        cin >> n >> k >> x;
-        vector<int> a(n);
-        for (int i = 0; i < n; i++) {
-            cin >> a[i];
+    while (t--) {
+        fint n;
+        cin >> n;
+        string s, t;
+        cin >> s >> t;
+        vector <op> ops;
+        fint lim = n - 4;
+        for (fint i = 0; i < lim; i++) {
+            if (s[i] == t[i]) continue;
+            if (s[i] == s[i + 1]) {
+                ops.pb({i + 1, i + 2});
+                s[i] = (s[i] == '0' ? '1' : '0');
+                s[i + 1] = (s[i + 1] == '0' ? '1' : '0');
+            }
+            else if (s[i] == s[i + 2]) {
+                ops.pb({i + 1, i + 3});
+                s[i] = (s[i] == '0' ? '1' : '0');
+                s[i + 1] = (s[i + 1] == '0' ? '1' : '0');
+                s[i + 2] = (s[i + 2] == '0' ? '1' : '0');
+            }
+            else {
+                ops.pb({i + 2, i + 3});
+                s[i + 1] = (s[i + 1] == '0' ? '1' : '0');
+                s[i + 2] = (s[i + 2] == '0' ? '1' : '0');
+                ops.pb({i + 1, i + 3});
+                s[i] = (s[i] == '0' ? '1' : '0');
+                s[i + 1] = (s[i + 1] == '0' ? '1' : '0');
+                s[i + 2] = (s[i + 2] == '0' ? '1' : '0');
+            }
         }
-        fint l = 0, h = x;
-        while (l <= h) {
-            fint mid = (l + h) >> 1;
-            if (check(mid, a, x, k)) l = mid + 1;
-            else h = mid - 1;
+        string s_suff = s.substr(n - 4);
+        string t_suff = t.substr(n - 4);
+        if (s_suff == t_suff) {
+            cout << sz(ops) << '\n';
+            for (auto op : ops) cout << op.l << " " << op.r << '\n';
+            continue;
         }
-        int dm = h;
-        if (dm == 0) {
-            for (fint i = 0; i < k; i++) cout << i << " ";
-            cout << '\n';
-        } else {
-            vector <pii> it;
-            for (int i = 0; i < n; i++) {
-                int l = max(0, a[i] - (dm - 1));
-                int r = max(x, a[i] + (dm - 1));
-                it.pb({l, r});
+        queue <string> q;
+        q.push(s_suff);
+        map <string, string> par;
+        map <string, op> m;
+        map <string, bool> vis;
+        vis[s_suff] = true;
+        par[s_suff] = "";
+        bool f = false;
+        while (!q.empty()) {
+            string u = q.front();
+            q.pop();
+            if (u == t_suff) {
+                f = true;
+                break;
             }
-            sort(all(it));
-            vector<pii> m;
-            fint curl = it[0].fi, curr = it[0].se;
-            for (fint i = 1; i < n; i++) {
-                if (it[i].fi <= curr + 1) curr = max(curr, it[i].se);
-                else {
-                        m.pb({curl, curr});
-                        curl = it[i].fi;
-                        curr = it[i].se;
+            for (fint len = 2; len <= 4; len++) {
+                for (fint i = 0; i <= 4 - len; i++) {
+                    string sub = u.substr(i, len);
+                    if (palin(sub)) {
+                        string v = u;
+                        for (fint k = i; k < i + len; k++) v[k] = (v[k] == '0' ? '1' : '0');
+                        if (!vis[v]) {
+                            vis[v] = true;
+                            par[v] = u;
+                            m[v] = {(n - 4) + i + 1, (n - 4) + i + len};
+                            q.push(v);
+                        }
+                    }
                 }
             }
-            m.pb({curl, curr});
-            vector <int> tele;
-            int ptr = 0;
-            for (auto &[l, r] : m) {
-                for (fint p = ptr; p < l; p++) {
-                    tele.pb(p);
-                    if (tele.size() == k) break;
-                }
-                if (tele.size() == k) break;
-                ptr = r + 1;
+        }
+        if (!f) {
+            cout << "-1\n";
+        }
+        else {
+            vector <op> suff_ops;
+            string curr = t_suff;
+            while (curr != s_suff) {
+                suff_ops.pb(m[curr]);
+                curr = par[curr];
             }
-            if (tele.size() < k) {
-                for (fint p = ptr; p <= x; p++) {
-                    tele.pb(p);
-                    if (tele.size() == k) break;
-                }
-            }
-            for (fint i = 0; i < k; i++) cout << tele[i] << " ";
-            cout << "\n";
+            reverse(suff_ops.begin(), suff_ops.end());
+            for (auto op : suff_ops) ops.pb(op);
+            cout << sz(ops) << '\n';
+            for (auto op : ops) cout << op.l << " " << op.r << '\n';
         }
     }
-}
+}  
