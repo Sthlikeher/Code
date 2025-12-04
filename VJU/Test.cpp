@@ -23,14 +23,12 @@ typedef  __uint128_t u128;
 const ll maxN = 30, lim = 1e7 + 7, mod = 1e9 + 7, N = 2e5 + 5, base = 131, inf = (1ULL << 62);
 piu {
     fl;
-    string s;
-    getline(cin, s);
-    ull t = 0, cur = 0;
-    bool ch = false;
-    for (char c : s) {
-        if (isdigit(c)) cur = cur * 10 + (c - '0'), ch = true;
-        else if (ch) t += cur, cur = 0, ch = false;
+    ll n, m;
+    cin >> n >> m;
+    vl a(n), b(m);
+    for (ll i = 0; i < n; i++) cin >> a[i];
+    for (ll i = 0; i < m; i++) cin >> b[i];
+    for (ll i = 0; i < n; i++) {
+        for (ll j = 0; j < m; j++) if (a[i] == b[j]) cout << a[i]<< " ";
     }
-    if (ch) t += cur;
-    cout << t;
 }
